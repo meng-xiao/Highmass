@@ -1,0 +1,11 @@
+cd /afs/cern.ch/work/x/xiaomeng/test/myWorkingArea//CMSSW_7_4_7/src
+#cd /afs/cern.ch/work/x/xiaomeng/test/myWorkingArea/highmass/CMSSW_7_4_14/src
+eval `scramv1 runtime -sh`
+echo $CMSSW_BASE
+workdir=/afs/cern.ch/work/x/xiaomeng/test/myWorkingArea/Efficiency/HighMassCombInputs/prepare
+#cd $CMSSW_BASE/src
+#eval `scramv1 runtime -sh`
+cd $workdir
+#root -q -b "construct_4l.c($1,$2,$3,$4,\"$5\",$6)"
+#root -q -b "construct_sep_4l.c($1,$2,$3,$4)"
+root -q -b "construct_4l.c($1,$2,$3,$4)"
