@@ -1,0 +1,6 @@
+workdir=/afs/cern.ch/work/x/xiaomeng/test/myWorkingArea/Efficiency/HighMassCombInputs/prepare
+cd /afs/cern.ch/work/x/xiaomeng/test/myWorkingArea/highmass/CMSSW_7_4_14/src
+eval `scramv1 runtime -sh`
+cd $workdir
+root -q -b "bkgWorkspace.c(\"$1\",$2,$3,$4)"
+#root -l "bkgWorkspace.c(\"$1\",$2,$3,$4)"
