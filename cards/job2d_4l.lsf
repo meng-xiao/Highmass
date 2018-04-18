@@ -1,0 +1,21 @@
+#!/bin/bash
+workdir=/afs/cern.ch/work/x/xiaomeng/test/myWorkingArea/CreateDatacards_ZZ2l2q_ICHEP_spin0_v4/wide_1D
+#cd $CMSSW_BASE/src
+cd /afs/cern.ch/work/x/xiaomeng/test/myWorkingArea/CMSSW_7_4_7/src
+eval `scramv1 runtime -sh`
+cd $workdir/4l_2D_Moriond
+mass=$1
+width=$2
+echo $mass
+echo $mass $width
+
+if [ "$3" = "pro" ]; then 
+cp hzz4l_all_13TeV.txt hzz4l_all_13TeV_"$mass"_"$width".txt 
+sed -i 's~MASS~'$mass'~g' hzz4l_all_13TeV_"$mass"_"$width".txt 
+sed -i 's~WIDTH~'$width'~g' hzz4l_all_13TeV_"$mass"_"$width".txt 
+text2workspace.py hzz4l_all_13TeV_"$mass"_"$width".txt -o hzz4l_13TeV_"$mass"_"$width"_new.root -P HiggsAnalysis.CombinedLimit.HighmassModel:HighmassModel --PO muAsPOI -m $mass -v 3
+combine -n limit_"$mass"_"$width"_new_pro  -m $mass -M Asymptotic hzz4l_13TeV_"$mass"_"$width"_new.root --run blind --setPhysicsModelParameters fvbf=0.001 -v 3 --minimizerStrategy=0 --cminFallback Minuit2:0.01 --cminFallback Minuit:0.001 --minosAlgo=stepping --freezeNuisances fvbf --X-rtd TMCSO_AdaptivePseudoAsimov=10 
+else
+combine -n limit_"$mass"_"$width"_new_vbf  -m $mass -M Asymptotic hzz4l_13TeV_"$mass"_"$width"_new.root --run blind --setPhysicsModelParameters fvbf=1 -v 3 --minimizerStrategy=0 --cminFallback Minuit2:0.01 --cminFallback Minuit:0.001 --minosAlgo=stepping --freezeNuisances fvbf --X-rtd TMCSO_AdaptivePseudoAsimov=10 
+fi
+
